@@ -8,6 +8,9 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [blogTitle, setBlogTitle] = useState('')
+  const [blogAuthor, setBlogAuthor] = useState('')
+  const [blogUrl, setBlogUrl] = useState('')
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -61,6 +64,8 @@ const App = () => {
       window.localStorage.setItem(
         'loggedInUser', JSON.stringify(user)
       )
+
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
@@ -74,6 +79,26 @@ const App = () => {
     setUser(null)
   }
 
+  const handleAddBlog = async (event) => {
+    event.preventDefault()
+
+    const newBlog = {
+      title: blogTitle,
+      author: blogAuthor,
+      url: blogUrl
+    }
+
+    try {
+      const theBlog = await blogService.create(newBlog)
+      setBlogs(blogs.concat(theBlog))
+      setBlogTitle('')
+      setBlogAuthor('')
+      setBlogUrl('')
+    } catch (exception) {
+      console.log('unable to add blog')
+    }
+  }
+
   const showBlogs = () => {
     return (
       <div>
@@ -81,6 +106,27 @@ const App = () => {
         <div>
           <p>{user.name} logged in</p>
           <button onClick={() => {logout()}}>logout</button>
+        </div>
+        <div>
+          <h2>create new</h2>
+          <form onSubmit={handleAddBlog}>
+            title:
+            <input
+              value={blogTitle}
+              onChange={({target}) => setBlogTitle(target.value)}
+            />
+            author:
+            <input
+              value={blogAuthor}
+              onChange={({target}) => setBlogAuthor(target.value)}
+            />
+            url:
+            <input
+              value={blogUrl}
+              onChange={({target}) => setBlogUrl(target.value)}
+            />
+            <button type="submit">create</button>
+          </form>
         </div>
         <div>
           {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
