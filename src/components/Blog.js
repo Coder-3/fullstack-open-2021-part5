@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, likeBlog }) => {
   const [isExpanded, setIsExpanded] = useState(false)
 
   const hideWhenIsExpanded = { display: isExpanded ? 'none' : '' }
@@ -18,8 +18,18 @@ const Blog = ({ blog }) => {
     setIsExpanded(!isExpanded)
   }
 
-  const likeBlog = () => {
-    console.log('+1 to likes for ', blog.title)
+  const handleLike = (event) => {
+    event.preventDefault()
+
+    const updatedBlog = {
+      author: blog.author,
+      title: blog.title,
+      likes: blog.likes + 1,
+      url: blog.url,
+      user: blog.user.id
+    }
+
+    likeBlog(blog.id, updatedBlog)
   }
 
   return (
@@ -35,7 +45,7 @@ const Blog = ({ blog }) => {
         {blog.url}
         <br></br>
         likes {blog.likes}
-        <button onClick={likeBlog}>like</button>
+        <button onClick={handleLike}>like</button>
         <br></br>
         {blog.user.name}
         <br></br>

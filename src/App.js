@@ -128,6 +128,28 @@ const App = () => {
     }
   }
 
+  const likeBlog = async (id, blogObject) => {
+    const updatedBlog = await blogService.update(id, blogObject)
+    setBlogs(blogs.map(blog => {
+      if (blog.id !== id) {
+        return blog
+      } else {
+        const modifiedUpdatedBlog = {
+          title: updatedBlog.title,
+          author: updatedBlog.author,
+          url: updatedBlog.url,
+          likes: updatedBlog.likes,
+          user: {
+            name: blog.user.name
+          },
+          id: updatedBlog.id
+        }
+
+        return modifiedUpdatedBlog
+      }
+    }))
+  }
+
   const showBlogs = () => {
     return (
       <div>
@@ -142,7 +164,7 @@ const App = () => {
           <BlogForm handleCreate={handleAddBlog} />
         </Togglable>
         <div>
-          {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
+          {blogs.map(blog => <Blog key={blog.id} blog={blog} likeBlog={likeBlog} />)}
         </div>
       </div>
     )
