@@ -22,9 +22,11 @@ describe('<Blog />', () => {
     username: 'Test blog username'
   }
 
+  const likeBlog = jest.fn()
+
   beforeEach(() => {
     component = render(
-      <Blog blog={blog} user={user} />
+      <Blog blog={blog} user={user} likeBlog={likeBlog} />
     )
   })
 
@@ -58,5 +60,13 @@ describe('<Blog />', () => {
 
     const div = component.container.querySelector('.blogExpanded')
     expect(div).not.toHaveStyle('display: none')
+  })
+
+  test('clicking the like button twice calls the prop event handler twice', () => {
+    const button = component.getByText('like')
+    fireEvent.click(button)
+    fireEvent.click(button)
+
+    expect(likeBlog.mock.calls).toHaveLength(2)
   })
 })
