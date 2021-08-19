@@ -43,7 +43,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs.sort((a, b) => b.likes - a.likes) )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const App = () => {
       <form onSubmit={handleLogin}>
         <div>
           username
-            <input
+          <input
             type="text"
             value={username}
             name="Username"
@@ -70,7 +70,7 @@ const App = () => {
         </div>
         <div>
           password
-            <input
+          <input
             type="password"
             value={password}
             name="Password"
@@ -180,13 +180,13 @@ const App = () => {
   return (
     <div>
       {user === null ?
-      <div>
-        {loginForm()} 
-      </div>
-      :
-      <div>
-        {showBlogs()}
-      </div>
+        <div>
+          {loginForm()}
+        </div>
+        :
+        <div>
+          {showBlogs()}
+        </div>
       }
     </div>
   )
