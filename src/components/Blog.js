@@ -48,11 +48,11 @@ const Blog = ({ blog, likeBlog, deleteBlog, user }) => {
 
   return (
     <div style={blogStyle}>
-      <div style={hideWhenIsExpanded}>
+      <div style={hideWhenIsExpanded} className="blogContracted">
         {blog.title} {blog.author}
         <button onClick={toggleExpanded}>View</button>
       </div>
-      <div style={showWhenIsExpanded}>
+      <div style={showWhenIsExpanded} className="blogExpanded">
         {blog.title} {blog.author}
         <button onClick={toggleExpanded}>hide</button>
         <br></br>
