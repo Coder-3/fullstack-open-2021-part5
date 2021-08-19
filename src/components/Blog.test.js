@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { render } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import Blog from './Blog'
 
 describe('<Blog />', () => {
@@ -50,5 +50,13 @@ describe('<Blog />', () => {
     const div = component.container.querySelector('.blogExpanded')
 
     expect(div).toHaveStyle('display: none')
+  })
+
+  test('after clicking the view button, the blog shows its url and number of likes', () => {
+    const button = component.getByText('View')
+    fireEvent.click(button)
+
+    const div = component.container.querySelector('.blogExpanded')
+    expect(div).not.toHaveStyle('display: none')
   })
 })
