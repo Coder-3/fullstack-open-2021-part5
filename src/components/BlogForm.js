@@ -33,6 +33,7 @@ const BlogForm = ({ handleCreate }) => {
         />
         author:
         <input
+          id='author'
           value={author}
           onChange={({ target }) => setAuthor(target.value)}
         />
