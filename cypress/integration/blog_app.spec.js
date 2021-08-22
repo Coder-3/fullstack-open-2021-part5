@@ -50,5 +50,18 @@ describe('Blog app', function() {
       cy.contains('Test blog title')
       cy.contains('Test blog author')
     })
+
+    it('A blog can be liked', function() {
+      cy.contains('create new blog').click()
+      cy.get('#title').type('Test blog title')
+      cy.get('#author').type('Test blog author')
+      cy.get('#url').type('Test blog url')
+      cy.get('#submitBlog').click()
+
+      cy.contains('View').click()
+      cy.get('.blogExpanded').contains('0')
+      cy.get('.blogExpanded').contains('like').click()
+      cy.get('.blogExpanded').contains('1')
+    })
   })
 })
