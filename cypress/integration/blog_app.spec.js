@@ -101,4 +101,22 @@ describe('Blog app', function() {
       cy.contains('remove').should('not.exist')
     })
   })
+
+  describe('When logged it through the API', function() {
+    beforeEach(function() {
+      cy.login({ username: 'coder-3', password: 'coder-3' })
+    })
+
+    it('blogs are in descending order of likes', function() {
+      cy.createBlog({ title: 'test tile', author: 'test author', url: 'test url', likes: 0 })
+      cy.createBlog({ title: 'test tile', author: 'test author', url: 'test url', likes: 1 })
+      cy.createBlog({ title: 'test tile', author: 'test author', url: 'test url', likes: 2 })
+
+      cy.get('.blogLikes').then(blogLikes => {
+        expect(blogLikes[0].innerHTML).equal('2')
+        expect(blogLikes[1].innerHTML).equal('1')
+        expect(blogLikes[2].innerHTML).equal('0')
+      })
+    })
+  })
 })

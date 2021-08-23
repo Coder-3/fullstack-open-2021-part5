@@ -42,7 +42,7 @@ const Blog = ({ blog, likeBlog, deleteBlog, user }) => {
 
   const removeButton = () => {
     if (user.username === blog.user.username) {
-      return <button onClick={handleDelete}>remove</button>
+      return <button onClick={handleDelete} className="deleteButton">remove</button>
     }
   }
 
@@ -50,7 +50,7 @@ const Blog = ({ blog, likeBlog, deleteBlog, user }) => {
     <div style={blogStyle}>
       <div style={hideWhenIsExpanded} className="blogContracted">
         {blog.title} {blog.author}
-        <button onClick={toggleExpanded}>View</button>
+        <button onClick={toggleExpanded} className="viewButton">View</button>
       </div>
       <div style={showWhenIsExpanded} className="blogExpanded">
         {blog.title} {blog.author}
@@ -58,8 +58,8 @@ const Blog = ({ blog, likeBlog, deleteBlog, user }) => {
         <br></br>
         {blog.url}
         <br></br>
-        likes {blog.likes}
-        <button onClick={handleLike}>like</button>
+        likes <span className="blogLikes">{blog.likes}</span>
+        <button onClick={handleLike} className="likeButton">like</button>
         <br></br>
         {blog.user.name}
         <br></br>
