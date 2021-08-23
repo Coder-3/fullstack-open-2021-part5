@@ -63,5 +63,42 @@ describe('Blog app', function() {
       cy.get('.blogExpanded').contains('like').click()
       cy.get('.blogExpanded').contains('1')
     })
+
+    it('A blog can be deleted by user who created it', function() {
+      cy.contains('create new blog').click()
+      cy.get('#title').type('Test blog title')
+      cy.get('#author').type('Test blog author')
+      cy.get('#url').type('Test blog url')
+      cy.get('#submitBlog').click()
+
+      cy.contains('View').click()
+      cy.contains('remove').click()
+      cy.contains('Test blog title').should('not.exist')
+    })
+
+    it('A blog cannot be deleted by a user who did not create it', function() {
+      cy.contains('create new blog').click()
+      cy.get('#title').type('Test blog title')
+      cy.get('#author').type('Test blog author')
+      cy.get('#url').type('Test blog url')
+      cy.get('#submitBlog').click()
+
+      cy.contains('logout').click()
+
+      const user = {
+        name: 'Not Cedric',
+        username: 'coder-4',
+        password: 'coder-4'
+      }
+
+      cy.request('POST', 'http://localhost:3001/api/users', user)
+
+      cy.get('#username').type('coder-4')
+      cy.get('#password').type('coder-4')
+      cy.get('#loginButton').click()
+
+      cy.contains('View').click()
+      cy.contains('remove').should('not.exist')
+    })
   })
 })
